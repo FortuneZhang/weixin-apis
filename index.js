@@ -45,7 +45,7 @@ Weixin.prototype.init = function() {
 	var self = this;
 	
 	// 接入验证
-	self.app.get('/verify', function(req, res) {
+	self.app.get('/weixin/verify', function(req, res) {
 		if (self.checkSignature(req)) {
 			res.send(200, req.query.echostr);
 		} else {
@@ -54,7 +54,7 @@ Weixin.prototype.init = function() {
 	});
 
 	// Start
-	self.app.post('/verify', function(req, res) {
+	self.app.post('/weixin/verify', function(req, res) {
 		self.loop(req, res);
 	});
 	
@@ -443,7 +443,7 @@ Weixin.prototype.parseSubscribeEventMsg = function(data) {
 		"createTime" : data.CreateTime[0],
 		"msgType" : data.MsgType[0],
 		"event" : data.Event[0],
-		"eventKey" : data.EventKey[0],
+		"eventKey" : data.EventKey ? data.EventKey[0]:'',
 		"ticket" : data.Ticket ? data.Ticket[0] : '没有Ticket属性'
 	};
 	this.emit('subscribeEventMsg', msg);
